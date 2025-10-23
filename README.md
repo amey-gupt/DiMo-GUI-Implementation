@@ -29,46 +29,43 @@ To test the framework, I conducted a comparative experiment within a Jupyter Not
 
 ## 🖼️ Results and Demonstration
 
-### Test Case 1: PowerPoint - "Slide show from beginning"
+The results from both test cases consistently show the limitations of the general-purpose VLM for this specialized task.
 
-The goal is to find the "From Beginning" button. The vanilla model is distracted by the pop-up window, while the DiMo-GUI framework, despite being led astray by the model's poor initial guess, attempts to refine the location.
+### Test Case 1: PowerPoint - "Add Slide"
+
+The goal is to find the "New Slide" button. Both the vanilla model and the DiMo-GUI framework fail, getting confused by the complex interface.
 
 **Without DiMo-GUI (Vanilla Result)**
 *The model's unguided guess is incorrect, focusing on the top-left of the screen.*
-
-
+<img width="1200" height="743" alt="image" src="https://github.com/user-attachments/assets/ca2bfb53-d212-46d5-84de-e129d11cf6ec" />
 
 **With DiMo-GUI (Full Framework Result)**
-*The framework correctly follows its logic but refines an initial bad guess, leading to an incorrect final location within the pop-up.*
-
-
+*The framework is led astray by the model's poor initial guesses and refines them into a meaningless 1-pixel box.*
+<img width="1200" height="743" alt="image" src="https://github.com/user-attachments/assets/7061cfd7-8cfb-4e3e-9de5-87e57e44552b" />
 
 ---
 
-### Test Case 2: Google Maps - "Get directions"
+### Test Case 2: Google Maps - "Begin Navigation"
 
-The goal is to find the "Directions" icon or button. The vanilla model makes a large, inaccurate guess. The DiMo-GUI framework refines this into a nonsensical 1-pixel box, perfectly demonstrating the "no backtracking" limitation.
+The goal is to find the "Start" button. Both methods fail, highlighting the model's inability to correctly ground the command "Begin Navigation" to the correct visual element.
 
 **Without DiMo-GUI (Vanilla Result)**
-*The vanilla model makes a large, inaccurate guess in the top-left of the map area.*
-
-
+*The vanilla model makes an incorrect guess, bounding an empty black area instead of the "Start" button.*
+<img width="1742" height="1240" alt="image" src="https://github.com/user-attachments/assets/da2fa5fc-09e9-4fc0-bf8a-cb98223b0f65" />
 
 **With DiMo-GUI (Full Framework Result)**
-*The framework zooms in on a poor initial guess until the bounding box becomes too small, resulting in an incorrect final answer.*
-
-
+*The framework's modality split does not help, as the initial guesses are poor. The process refines these bad guesses into tiny, incorrect boxes.*
+<img width="1742" height="1240" alt="image" src="https://github.com/user-attachments/assets/84a43b6f-c6c3-4dfb-9ebb-6cf6cf52bd11" />
 
 ---
 
 ## 🔬 Analysis and Conclusion
 
-This implementation successfully replicates the logic of the DiMo-GUI framework. The experimental results clearly demonstrate the **model capability gap**:
+This implementation successfully replicates the logic of the DiMo-GUI framework. The experimental results clearly and consistently demonstrate the **model capability gap**:
 
-While the framework's *process* is sound, the general-purpose `Llava-1.5-7b` model lacks the specialized training to make accurate initial guesses on complex GUIs. It is easily distracted by visual clutter and often "hallucinates" locations. As a result, the framework correctly refines these initial, incorrect predictions.
+The underlying `Llava-1.5-7b` model, being a general-purpose VLM, lacks the specialized training to accurately understand complex GUIs. It is easily distracted by visual clutter and often "hallucinates" locations, causing *both* the simple vanilla prompt and the complex DiMo-GUI framework to fail.
 
-This project validates the paper's core premise: a sophisticated framework like DiMo-GUI, when paired with a highly capable, domain-specific model, can achieve significant performance gains in visual grounding.
-
+This project validates the paper's core premise: a sophisticated framework like DiMo-GUI is not enough on its own. To achieve high accuracy in visual grounding, it must be paired with a powerful, domain-specific model that has been extensively trained on GUI interaction tasks.
 ---
 
 ## 🔧 How to Run
