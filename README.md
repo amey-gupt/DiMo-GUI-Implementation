@@ -66,6 +66,7 @@ This implementation successfully replicates the logic of the DiMo-GUI framework.
 The underlying `Llava-1.5-7b` model, being a general-purpose VLM, lacks the specialized training to accurately understand complex GUIs. It is easily distracted by visual clutter and often "hallucinates" locations, causing *both* the simple vanilla prompt and the complex DiMo-GUI framework to fail.
 
 This project validates the paper's core premise: a sophisticated framework like DiMo-GUI is not enough on its own. To achieve high accuracy in visual grounding, it must be paired with a powerful, domain-specific model that has been extensively trained on GUI interaction tasks.
+
 ---
 
 ## 🔧 How to Run
